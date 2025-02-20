@@ -1,42 +1,46 @@
+using System.Collections;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _prefab;
-    [SerializeField] private GameObject _startPosition;
+    [SerializeField] private Collider _startPosition;
     [SerializeField] private CubeObjectPool _pool;
     [SerializeField] private float _spawnInterval;
 
-    private float _nextSpawnTime;
-
-    private void Update()
+    private void Start()
     {
-        if (Time.time >= _nextSpawnTime)
+        StartCoroutine(CountDown());
+    }
+
+    private IEnumerator CountDown()
+    {
+        var wait = new WaitForSeconds(_spawnInterval);
+
+        while(enabled)
         {
             Spawn();
-            _nextSpawnTime = Time.time + _spawnInterval;
+
+            yield return wait;
         }
     }
 
     private void Spawn()
     {
-        GameObject cube = _pool.TryGetPooledObject();
+        Cube cube = _pool.GetPooledObject();
 
         if (cube != null)
         {
-            _startPosition.TryGetComponent(out Collider startCollider);
-
-            if (startCollider != null)
+            if (_startPosition.transform.position != null)
             {
-                cube.transform.position = GetSpawnPosition(startCollider);
-                cube.SetActive(true);
+                cube.transform.position = GetSpawnPosition();
+                cube.gameObject.SetActive(true);
             }
         }
     }
 
-    private Vector3 GetSpawnPosition(Collider collider)
+    private Vector3 GetSpawnPosition()
     {
-        Bounds bound = collider.bounds;
+        Bounds bound = _startPosition.bounds;
 
         return new Vector3(
             Random.Range(bound.min.x, bound.max.x),

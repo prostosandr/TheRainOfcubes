@@ -3,30 +3,30 @@ using UnityEngine;
 
 public class CubeObjectPool : MonoBehaviour
 {
-    [SerializeField] private GameObject _prefab;
+    [SerializeField] private Cube _prefab;
     [SerializeField] private int _poolSize;
 
-    private List<GameObject> _pool;
+    private List<Cube> _pool;
 
     private void Start()
     {
-        _pool = new List<GameObject>();
+        _pool = new List<Cube>();
 
         for(int i = 0; i < _poolSize; i++)
         {
-            GameObject obj = Instantiate(_prefab);
-            obj.SetActive(false);
+            Cube cube = Instantiate(_prefab);
+            cube.gameObject.SetActive(false);
 
-            _pool.Add(obj);
+            _pool.Add(cube);
         }
     }
 
-    public GameObject TryGetPooledObject()
+    public Cube GetPooledObject()
     {
-        foreach(GameObject obj in _pool)
+        foreach(Cube cube in _pool)
         {
-            if (obj.activeSelf == false)
-                return obj;
+            if (cube.gameObject.activeSelf == false)
+                return cube;
         }
 
         return null;

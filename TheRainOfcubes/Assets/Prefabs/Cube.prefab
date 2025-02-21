@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f84745b6170be46acb879515d82ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cubePainter: {fileID: -9038852396506219152}
   _minLifeTime: 2
   _maxLifeTime: 5
 --- !u!114 &-9038852396506219152
@@ -164,4 +165,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0a4dc613adb4e4f923a237c0324c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cube: {fileID: 898635336847258831}

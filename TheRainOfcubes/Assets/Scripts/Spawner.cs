@@ -27,15 +27,9 @@ public class Spawner : MonoBehaviour
     private void Spawn()
     {
         Cube cube = _pool.GetPooledObject();
+        cube.transform.position = GetSpawnPosition();
+        cube.gameObject.SetActive(true);
 
-        if (cube != null)
-        {
-            if (_startPosition.transform.position != null)
-            {
-                cube.transform.position = GetSpawnPosition();
-                cube.gameObject.SetActive(true);
-            }
-        }
     }
 
     private Vector3 GetSpawnPosition()

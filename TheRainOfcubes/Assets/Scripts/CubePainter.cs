@@ -1,21 +1,22 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
 public class CubePainter : MonoBehaviour
 {
-    [SerializeField] private Cube cube;
+    private Renderer _renderer;
 
-    private void OnEnable()
+    private void Awake()
     {
-        cube.Collided += Paint;
+        _renderer = GetComponent<Renderer>();
     }
 
-    private void OnDisable()
+    public void ChangeColor()
     {
-        cube.Collided -= Paint;
+        _renderer.material.color = new Color(Random.value, Random.value, Random.value);
     }
 
-    private void Paint(Renderer renderer, Color color)
+    public void ResetColor()
     {
-        renderer.material.color = color;
+        _renderer.material.color = Color.white;
     }
 }

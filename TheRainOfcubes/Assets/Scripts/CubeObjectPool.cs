@@ -23,12 +23,21 @@ public class CubeObjectPool : MonoBehaviour
 
     public Cube GetPooledObject()
     {
-        foreach (Cube cube in _pool)
+        int firstElement = 0;
+        Cube cube = null;
+
+        foreach (Cube obj in _pool)
         {
-            if (cube.gameObject.activeSelf == false)
-                return cube;
+            if (obj.gameObject.activeSelf == false)
+            {
+                cube = obj;
+                break;
+            }
         }
 
-        return null;
+        if (cube == null)
+            cube = _pool[Random.Range(firstElement, _poolSize)];
+
+        return cube;
     }
 }

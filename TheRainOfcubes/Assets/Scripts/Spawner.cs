@@ -16,7 +16,7 @@ public class Spawner : MonoBehaviour
     {
         var wait = new WaitForSeconds(_spawnInterval);
 
-        while(enabled)
+        while (enabled)
         {
             Spawn();
 

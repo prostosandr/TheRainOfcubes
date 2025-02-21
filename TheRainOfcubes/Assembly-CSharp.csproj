@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Platform.cs" />
     <Compile Include="Assets\Scripts\Spawner.cs" />
     <Compile Include="Assets\Scripts\CubeObjectPool.cs" />
+    <Compile Include="Assets\Scripts\CubePainter.cs" />
     <Compile Include="Assets\Scripts\Cube.cs" />
   </ItemGroup>
   <ItemGroup>

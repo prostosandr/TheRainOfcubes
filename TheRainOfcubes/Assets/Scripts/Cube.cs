@@ -1,76 +1,75 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Renderer), typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody), typeof(Renderer))]
 public class Cube : MonoBehaviour
 {
     [SerializeField] private float _minLifeTime;
     [SerializeField] private float _maxLifeTime;
 
     private Coroutine _coroutine;
-    private Renderer _renderer;
     private Rigidbody _rigidbody;
+    private Renderer _renderer;
     private bool _hasCollided;
+
+    public event Action<Renderer, Color> Collided;
 
     private void Awake()
     {
-        _renderer = GetComponent<Renderer>();
         _rigidbody = GetComponent<Rigidbody>();
-    }
-
-    private void OnEnable()
-    {
-        ResetParameters();
+        _renderer = GetComponent<Renderer>();
     }
 
     private IEnumerator CountDown()
     {
-        var wait = new WaitForSeconds(Random.Range(_minLifeTime, _maxLifeTime));
+        var wait = new WaitForSeconds(UnityEngine.Random.Range(_minLifeTime, _maxLifeTime));
 
         while (enabled)
         {
             yield return wait;
 
             Deactivate();
-        }     
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(_hasCollided == false && collision.gameObject.TryGetComponent(out Platform platform))
+        if (_hasCollided == false && collision.gameObject.TryGetComponent(out Platform platform))
         {
-            SetParameters();
+            ChangeParameters();
 
             _coroutine = StartCoroutine(CountDown());
         }
     }
 
-    private void SetParameters()
+    private void ChangeParameters()
     {
         _hasCollided = true;
 
         ChangeColor(Color.red);
-    } 
+    }
 
     private void Deactivate()
     {
         StopCoroutine(_coroutine);
+        ResetParameters();
 
         gameObject.SetActive(false);
     }
 
     private void ResetParameters()
     {
+        ChangeColor(Color.white);
+
         _hasCollided = false;
         _rigidbody.angularVelocity = Vector3.zero;
         _rigidbody.linearVelocity = Vector3.zero;
         transform.rotation = Quaternion.identity;
-
-        ChangeColor(Color.white);
     }
 
     private void ChangeColor(Color color)
     {
-        _renderer.material.color = color;
+        Collided?.Invoke(_renderer, color);
     }
 }

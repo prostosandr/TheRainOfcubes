@@ -12,7 +12,7 @@ public class CubeObjectPool : MonoBehaviour
     {
         _pool = new List<Cube>();
 
-        for(int i = 0; i < _poolSize; i++)
+        for (int i = 0; i < _poolSize; i++)
         {
             Cube cube = Instantiate(_prefab);
             cube.gameObject.SetActive(false);
@@ -23,7 +23,7 @@ public class CubeObjectPool : MonoBehaviour
 
     public Cube GetPooledObject()
     {
-        foreach(Cube cube in _pool)
+        foreach (Cube cube in _pool)
         {
             if (cube.gameObject.activeSelf == false)
                 return cube;

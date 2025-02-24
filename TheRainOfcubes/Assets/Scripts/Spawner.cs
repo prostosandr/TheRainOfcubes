@@ -4,21 +4,22 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Collider _startPosition;
-    [SerializeField] private CubeObjectPool _pool;
+    [SerializeField] private CubePool _cubePool;
     [SerializeField] private float _spawnInterval;
 
     private void Start()
     {
-        StartCoroutine(CountDown());
+        StartCoroutine(SpawnTime());
     }
 
-    private IEnumerator CountDown()
+    private IEnumerator SpawnTime()
     {
         var wait = new WaitForSeconds(_spawnInterval);
 
         while (enabled)
         {
-            Spawn();
+            if (_cubePool.NumberOfCubes < _cubePool.PoolCapacity)
+                Spawn();
 
             yield return wait;
         }
@@ -26,7 +27,7 @@ public class Spawner : MonoBehaviour
 
     private void Spawn()
     {
-        Cube cube = _pool.GetCube();
+        Cube cube = _cubePool.GetCube();
         cube.transform.position = GetSpawnPosition();
         cube.gameObject.SetActive(true);
     }

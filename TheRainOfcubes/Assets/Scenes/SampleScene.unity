@@ -377,53 +377,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
---- !u!1 &441495765
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 441495767}
-  - component: {fileID: 441495766}
-  m_Layer: 0
-  m_Name: 'CubeObjectPool '
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &441495766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441495765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7e5870df553c294ab3c06c844eeb9a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefab: {fileID: 898635336847258831, guid: f39e0fe671220414c8c6fcfa4969cdf4, type: 3}
-  _poolCapacity: 20
-  _poolMaxSize: 20
---- !u!4 &441495767
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441495765}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.6852, y: -8.078819, z: 39.758835}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1008299301
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,6 +1035,7 @@ GameObject:
   - component: {fileID: 1855518485}
   - component: {fileID: 1855518484}
   - component: {fileID: 1855518488}
+  - component: {fileID: 1855518489}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -1191,8 +1145,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startPosition: {fileID: 1855518484}
-  _pool: {fileID: 441495766}
+  _cubePool: {fileID: 1855518489}
   _spawnInterval: 0.5
+--- !u!114 &1855518489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855518481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5082f918f264ad446a5a69fb923b8edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 898635336847258831, guid: f39e0fe671220414c8c6fcfa4969cdf4, type: 3}
+  _poolCapacity: 10
+  _poolMaxSize: 10
+  _numberOfCubes: 0
 --- !u!1 &1993231134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,7 +1369,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 330585546}
   - {fileID: 410087041}
-  - {fileID: 441495767}
   - {fileID: 1855518487}
   - {fileID: 1346546458}
   - {fileID: 1993231135}

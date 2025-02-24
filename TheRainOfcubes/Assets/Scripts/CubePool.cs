@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class CubeObjectPool : MonoBehaviour
+public class CubePool : MonoBehaviour
 {
     [SerializeField] private Cube _prefab;
     [SerializeField] private int _poolCapacity;
     [SerializeField] private int _poolMaxSize;
+    [SerializeField] private int _numberOfCubes;
+
+    public int NumberOfCubes => _numberOfCubes;
+    public int PoolCapacity => _poolCapacity;
 
     private ObjectPool<Cube> _pool;
 
@@ -13,7 +17,7 @@ public class CubeObjectPool : MonoBehaviour
     {
         _pool = new ObjectPool<Cube>(
             createFunc: () => Instantiate(_prefab),
-            actionOnGet: (cube) => ActionOnGet(cube),
+            actionOnGet: (cube) => ActingOnGet(cube),
             actionOnRelease: (cube) => cube.gameObject.SetActive(false),
             actionOnDestroy: (cube) => Destroy(cube.gameObject),
             collectionCheck: true,
@@ -23,16 +27,20 @@ public class CubeObjectPool : MonoBehaviour
 
     public Cube GetCube()
     {
+        _numberOfCubes++;
+
         return _pool.Get();
     }
 
-    private void ActionOnGet(Cube cube)
+    private void ActingOnGet(Cube cube)
     {
         cube.Deactivated += ReleaseCube;
     }
 
     private void ReleaseCube(Cube cube)
     {
+        _numberOfCubes--;
+
         cube.Deactivated -= ReleaseCube;
         _pool.Release(cube);
     }

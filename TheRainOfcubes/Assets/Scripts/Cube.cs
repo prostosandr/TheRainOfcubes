@@ -22,27 +22,24 @@ public class Cube : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (_hasCollided == false && collision.gameObject.TryGetComponent(out Platform platform))
+        if (_hasCollided == false && collision.gameObject.TryGetComponent<Platform>(out _))
         {
-            ChangeParameters();
+            Init();
 
-            _coroutine = StartCoroutine(CountDown());
+            _coroutine = StartCoroutine(Lifespan());
         }
     }
 
-    private IEnumerator CountDown()
+    private IEnumerator Lifespan()
     {
         var wait = new WaitForSeconds(UnityEngine.Random.Range(_minLifeTime, _maxLifeTime));
 
-        while (enabled)
-        {
-            yield return wait;
+        yield return wait;
 
-            Deactivate();
-        }
+        Deactivate();
     }
 
-    private void ChangeParameters()
+    private void Init()
     {
         _hasCollided = true;
 

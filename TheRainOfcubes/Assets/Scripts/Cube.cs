@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public class Cube : MonoBehaviour
     private Coroutine _coroutine;
     private Rigidbody _rigidbody;
     private bool _hasCollided;
+
+    public event Action<Cube> Deactivated;
 
     private void Awake()
     {
@@ -29,7 +32,7 @@ public class Cube : MonoBehaviour
 
     private IEnumerator CountDown()
     {
-        var wait = new WaitForSeconds(Random.Range(_minLifeTime, _maxLifeTime));
+        var wait = new WaitForSeconds(UnityEngine.Random.Range(_minLifeTime, _maxLifeTime));
 
         while (enabled)
         {
@@ -51,7 +54,7 @@ public class Cube : MonoBehaviour
         StopCoroutine(_coroutine);
         ResetParameters();
 
-        gameObject.SetActive(false);
+        Deactivated?.Invoke(this);
     }
 
     private void ResetParameters()

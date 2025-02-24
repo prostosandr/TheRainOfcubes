@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cubePainter: {fileID: -9038852396506219152}
+  _pool: {fileID: 2619312662152095222, guid: 191a796c31b111e418649ba23f79fdb5, type: 3}
   _minLifeTime: 2
   _maxLifeTime: 5
 --- !u!114 &-9038852396506219152

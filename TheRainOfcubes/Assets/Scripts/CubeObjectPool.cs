@@ -1,43 +1,39 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class CubeObjectPool : MonoBehaviour
 {
     [SerializeField] private Cube _prefab;
-    [SerializeField] private int _poolSize;
+    [SerializeField] private int _poolCapacity;
+    [SerializeField] private int _poolMaxSize;
 
-    private List<Cube> _pool;
+    private ObjectPool<Cube> _pool;
 
-    private void Start()
+    private void Awake()
     {
-        _pool = new List<Cube>();
-
-        for (int i = 0; i < _poolSize; i++)
-        {
-            Cube cube = Instantiate(_prefab);
-            cube.gameObject.SetActive(false);
-
-            _pool.Add(cube);
-        }
+        _pool = new ObjectPool<Cube>(
+            createFunc: () => Instantiate(_prefab),
+            actionOnGet: (cube) => ActionOnGet(cube),
+            actionOnRelease: (cube) => cube.gameObject.SetActive(false),
+            actionOnDestroy: (cube) => Destroy(cube.gameObject),
+            collectionCheck: true,
+            defaultCapacity: _poolCapacity,
+            maxSize: _poolMaxSize);
     }
 
-    public Cube GetPooledObject()
+    public Cube GetCube()
     {
-        int firstElement = 0;
-        Cube cube = null;
+        return _pool.Get();
+    }
 
-        foreach (Cube obj in _pool)
-        {
-            if (obj.gameObject.activeSelf == false)
-            {
-                cube = obj;
-                break;
-            }
-        }
+    private void ActionOnGet(Cube cube)
+    {
+        cube.Deactivated += ReleaseCube;
+    }
 
-        if (cube == null)
-            cube = _pool[Random.Range(firstElement, _poolSize)];
-
-        return cube;
+    private void ReleaseCube(Cube cube)
+    {
+        cube.Deactivated -= ReleaseCube;
+        _pool.Release(cube);
     }
 }
